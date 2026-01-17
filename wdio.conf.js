@@ -53,7 +53,7 @@ export const config = {
       // capabilities for local Appium web tests on an Android Emulator
       platformName: "Android",
       // browserName: "Chrome",
-      "appium:deviceName": "Android",
+      "appium:deviceName": "Android Emulator",
       //    "appium:platformVersion": "24.0",
       "appium:automationName": "UiAutomator2",
       "appium:appPackage": "com.saucelabs.mydemoapp.android",
@@ -114,7 +114,7 @@ export const config = {
       {
         command: "appium",
         // enable auto-download of a chromedriver matching the device Chrome version
-        args: { allowInsecure: "*:chromedriver_autodownload" },
+        // args: { allowInsecure: "*:chromedriver_autodownload" },
       },
     ],
     "visual",
@@ -171,7 +171,6 @@ export const config = {
     ignoreUndefinedDefinitions: false,
   },
 
-  //
   // =====
   // Hooks
   // =====

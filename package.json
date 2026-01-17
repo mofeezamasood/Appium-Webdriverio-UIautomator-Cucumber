@@ -18,5 +18,8 @@
   },
   "scripts": {
     "wdio": "wdio run ./wdio.conf.js"
+  },
+  "dependencies": {
+    "chai": "^6.2.2"
   }
 }
