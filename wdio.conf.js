@@ -52,13 +52,12 @@ export const config = {
     {
       // capabilities for local Appium web tests on an Android Emulator
       platformName: "Android",
-      browserName: "Chrome",
+      // browserName: "Chrome",
       "appium:deviceName": "Android",
-
       //    "appium:platformVersion": "24.0",
       "appium:automationName": "UiAutomator2",
-      //   "appium:appPackage": "com.saucelabs.mydemoapp.android",
-      //   "appium:appActivity": ".view.activities.SplashActivity",
+      "appium:appPackage": "com.saucelabs.mydemoapp.android",
+      "appium:appActivity": ".view.activities.SplashActivity",
     },
   ],
 
