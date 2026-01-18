@@ -20,7 +20,16 @@ export default class Page {
    * @param {number} timeout - Timeout in milliseconds (default: 10000)
    */
   async waitForClickable(element, timeout = 10000) {
-    await element.waitForClickable({ timeout });
+    try {
+      if (typeof element.waitForClickable === "function") {
+        await element.waitForClickable({ timeout });
+        return;
+      }
+      await this.waitForDisplayed(element, timeout);
+    } catch (error) {
+      // Fallback to displayed check for native/mobile contexts
+      await this.waitForDisplayed(element, timeout);
+    }
   }
 
   /**
@@ -47,10 +56,6 @@ export default class Page {
    * @param {WebdriverIO.Element} element - The element to get text from
    * @returns {string} The element's text
    */
-  async getText(element) {
-    await this.waitForDisplayed(element);
-    return await element.getText();
-  }
 
   /**
    * Check if element is displayed
@@ -64,26 +69,4 @@ export default class Page {
       return false;
     }
   }
-
-  /**
-   * Scroll to an element (mobile friendly)
-   * @param {WebdriverIO.Element} element - The element to scroll to
-   */
-  async scrollToElement(element) {
-    // Mobile scroll action
-    const elementLocation = await element.getLocation();
-    const elementSize = await element.getSize();
-
-    const x = elementLocation.x + elementSize.width / 2;
-    const y = elementLocation.y + elementSize.height / 2;
-
-    // Simple scroll using touch action
-    await driver.touchAction([
-      { action: "press", x: x, y: y + 200 },
-      { action: "moveTo", x: x, y: y },
-      "release",
-    ]);
-  }
 }
-
-module.exports = Page;

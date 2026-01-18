@@ -1,17 +1,17 @@
 # features/login.feature
-Feature: Sauce Labs My Demo App - Product Selection & Cart Validation
+Feature: Login Flow
 
-  # Scenario 1: Product Selection & Cart Validation
-  Scenario: Add two blue backpacks to cart and verify cart details
-    Given I launch the Sauce Labs My Demo App
-    Then I should be on the "Products" screen
-    
-    When I select the "Sauce Labs Backpack" product
-    And I change the color to "Blue"
-    And I increase the quantity to "2"
-    And I click "Add to Cart"
-    
-    When I navigate to the Cart
-    Then I verify the item name is "Sauce Labs Backpack"
-    And I verify the quantity is "2"
-    And I verify the total price matches the calculation for 2 items
+    # Scenario 2: Login Flow (Data Driven)
+    Scenario: Attempt login with two invalid and one valid credentials
+        Given I launch the Sauce Labs My Demo App
+        When I am on the "Login" screen
+        And I attempt to login with username "invalid user1" and password "wrong pass1"
+        Then I should see "Locked Out User" error message
+
+        Given I am on the "Login" screen
+        When I attempt to login with username "invalid user2" and password "wrong pass2"
+        Then I should see "Invalid password" error message
+
+        Given I am on the "Login" screen
+        When I attempt to login with username "invalid user3" and password "wrong pass3"
+        Then I should be successfully logged in and see the products screen
