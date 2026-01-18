@@ -14,9 +14,10 @@ Feature: Product Selection & Cart Validation
     When I change the color to "Blue"
     And I increase the quantity to "2"
     And I click on the "Add to cart" button
-    Then I should see that the cart number was updated on the cart icon
+    Then I should see that the cart number was updated to "2" in the cart icon
+    And I navigate to the "My Cart" screen
 
     Given I am on the "Cart" screen
-    Then I verify the item name is "Sauce Labs Backpack" 
-    And I verify the quantity is "2"
-    And I verify the total price matches the calculation for 2 items
+    Then I verify the item name in cart is "Sauce Labs Backpack" 
+    And I verify the quantity of the item in the cart is "2"
+    And I verify the total price matches the calculation for "2" items

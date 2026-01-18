@@ -10,52 +10,46 @@ class ProductDetailsPage extends Page {
   // SELECTORS - PRODUCT DETAILS
   // ====================
 
-  /**
-   * Product name on details page
-   */
+  // Product name on details page
   get productName() {
     return $(
       '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/productTV"]',
     );
   }
 
-  /**
-   * Blue color option
-   */
+  get cartButton() {
+    return $(
+      '//android.widget.ImageView[@content-desc="Displays number of items in your cart"]',
+    );
+  }
+
+  // Blue color option
   get blueColorOption() {
     return $('//android.widget.ImageView[@content-desc="Blue color"]');
   }
 
-  /**
-   * Quantity increase button (+)
-   */
+  // Quantity increase button (+)
   get quantityIncreaseButton() {
     return $(
       '//android.widget.ImageView[@content-desc="Increase item quantity"]',
     );
   }
 
-  /**
-   * Quantity display
-   */
+  // Quantity display
   get quantityDisplay() {
     return $(
       '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/noTV"]',
     );
   }
 
-  /**
-   * Add to cart button
-   */
+  // Add to cart button
   get addToCartButton() {
     return $(
       '//android.widget.Button[@resource-id="com.saucelabs.mydemoapp.android:id/cartBt"]',
     );
   }
 
-  /**
-   * Price display on details page
-   */
+  // Price display on details page
   get productPrice() {
     return $(
       '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/priceTV"]',
@@ -66,52 +60,42 @@ class ProductDetailsPage extends Page {
   // SELECTORS - CART SCREEN
   // ====================
 
-  /**
-   * Cart screen header
-   */
+  // Cart screen header
   get cartHeader() {
     return $(
       '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/productTV"]',
     );
   }
 
-  /**
-   * Cart item name
-   */
+  // Cart item name
   get cartItemName() {
     return $(
       '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/titleTV"]',
     );
   }
 
-  /**
-   * Cart item quantity
-   */
+  // Cart item quantity
   get cartItemQuantity() {
     return $(
       '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/noTV"]',
     );
   }
 
-  /**
-   * Cart item total price
-   */
+  // Cart item total price
   get cartItemTotalPrice() {
     return $(
       '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/totalPriceTV"]',
     );
   }
 
-  /**
-   * Cart item price per unit
-   */
+  // Cart item price per unit
   get cartItemUnitPrice() {
     return $(
       '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/priceTV"]',
     );
   }
 
-  get getCartNumber() {
+  get getCartNumberElement() {
     return $(
       '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/cartTV"]',
     );
@@ -121,10 +105,8 @@ class ProductDetailsPage extends Page {
   // PAGE METHODS
   // ====================
 
-  /**
-   * Safely find an element by selector and wait for it to be displayed.
-   * Returns null when the element cannot be found within the timeout.
-   */
+  // Safely find an element by selector and wait for it to be displayed.
+  // Returns null when the element cannot be found within the timeout.
   async findElementSafe(selector, timeout = 3000) {
     try {
       const el = await $(selector);
@@ -135,9 +117,7 @@ class ProductDetailsPage extends Page {
     }
   }
 
-  /**
-   * Safely click an element if present.
-   */
+  // Safely click an element if present.
   async safeClick(selector) {
     try {
       const el = await this.findElementSafe(selector, 2000);
@@ -147,9 +127,7 @@ class ProductDetailsPage extends Page {
       return false;
     }
   }
-  /**
-   * Safely retrieve text from an element, returning empty string when not found.
-   */
+  // Safely retrieve text from an element, returning empty string when not found.
   async safeGetText(selector) {
     try {
       const el = await this.findElementSafe(selector, 2000);
@@ -160,9 +138,7 @@ class ProductDetailsPage extends Page {
     }
   }
 
-  /**
-   * Change product color to Blue
-   */
+  // Change product color to Blue
   async changeColorToBlue() {
     console.log("Changing color to Blue.");
 
@@ -175,10 +151,8 @@ class ProductDetailsPage extends Page {
     console.log("Color changed to Blue successfully");
   }
 
-  /**
-   * Increase quantity to specified amount
-   * @param {number} targetQuantity - The desired quantity
-   */
+  // Increase quantity to specified amount
+  // @param {number} targetQuantity - The desired quantity
   async increaseQuantityTo(targetQuantity) {
     console.log(`Increasing quantity to ${targetQuantity}`);
 
@@ -212,9 +186,7 @@ class ProductDetailsPage extends Page {
     return finalQuantity;
   }
 
-  /**
-   * Add product to cart
-   */
+  // Add product to cart
   async addToCart() {
     console.log("Adding product to cart");
     const getcartbutton = this.addToCartButton;
@@ -223,17 +195,14 @@ class ProductDetailsPage extends Page {
   }
 
   async verifyCartNumber() {
-    console.log("Verifying cart number...");
-    const cartNumberElement = this.getCartNumber.getText();
-    const cartNumber = parseInt(cartNumberElement) || 0;
-    console.log(`Cart number is: ${cartNumber}`);
-    return cartNumber;
+    console.log("Verifying cart number");
+    const cartNumberText = await this.getCartNumberElement.getText();
+    console.log(`Cart number is: ${cartNumberText}`);
+    return cartNumberText;
   }
 
-  /**
-   * Verify on cart screen
-   * @returns {boolean} True if on cart screen
-   */
+  // Verify on cart screen
+  // @returns {boolean} True if on cart screen
   async verifyOnCartScreen() {
     try {
       await this.waitForDisplayed(this.cartHeader, 5000);
@@ -244,10 +213,8 @@ class ProductDetailsPage extends Page {
     }
   }
 
-  /**
-   * Get cart item details
-   * @returns {object} Object containing item details
-   */
+  // Get cart item details
+  // @returns {object} Object containing item details
   async getCartItemDetails() {
     // Try multiple selectors and return safe defaults when elements are missing
     const name =
@@ -293,12 +260,10 @@ class ProductDetailsPage extends Page {
     return details;
   }
 
-  /**
-   * Calculate expected total price
-   * @param {string} unitPrice - Price per unit (with $ sign)
-   * @param {number} quantity - Number of items
-   * @returns {string} Expected total price formatted
-   */
+  // Calculate expected total price
+  // @param {string} unitPrice - Price per unit (with $ sign)
+  // @param {number} quantity - Number of items
+  // @returns {string} Expected total price formatted
   calculateExpectedTotal(unitPrice, quantity) {
     // Extract numeric value from price string (e.g., "$29.99" -> 29.99)
     const numericPrice = parseFloat(unitPrice.replace(/[^0-9.-]+/g, ""));
@@ -312,8 +277,16 @@ class ProductDetailsPage extends Page {
     const productTitle = await this.productName.getText();
     return productTitle === "Sauce Labs Backpack";
   }
-}
 
-// module.exports = new ProductDetail();
+  async getItemName() {
+    return await this.productName.getText();
+  }
+
+  async openCart() {
+    console.log("Opening cart from product details page");
+    await this.cartButton.click();
+    console.log("Cart opened");
+  }
+}
 
 export default new ProductDetailsPage();

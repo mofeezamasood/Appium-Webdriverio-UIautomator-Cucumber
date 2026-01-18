@@ -1,3 +1,8 @@
+import { When } from "@wdio/cucumber-framework";
+import { expect } from "chai";
+import productDetail from "../pageobjects/product.details.page.js";
+import ProductsPage from "../pageobjects/Products.page.js";
+
 // ====================
 // WHEN Steps (Actions)
 // ====================
@@ -15,7 +20,7 @@ When("I click on the {string} button", async (buttonName) => {
 When("I click on the {string} product", async (productName) => {
   console.log(`Clicking on product: "${productName}"`);
   if (productName === "Sauce Labs Backpack") {
-    await mainPage.selectSauceLabsBackpack();
+    await ProductsPage.selectSauceLabsBackpack();
 
     // Verify we navigated to product details
     await driver.pause(2000); // Wait for navigation
@@ -28,7 +33,7 @@ When("I select the {string} product", async (productName) => {
   console.log(`Selecting product: "${productName}"...`);
 
   if (productName === "Sauce Labs Backpack") {
-    mainPage.selectSauceLabsBackpack();
+    ProductsPage.selectSauceLabsBackpack();
 
     // Verify we navigated to product details
     await driver.pause(2000); // Wait for navigation
