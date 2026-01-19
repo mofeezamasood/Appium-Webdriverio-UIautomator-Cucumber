@@ -17,6 +17,7 @@ class ProductDetailsPage extends Page {
     );
   }
 
+  // Cart button/icon
   get cartButton() {
     return $(
       '//android.widget.ImageView[@content-desc="Displays number of items in your cart"]',
@@ -56,45 +57,7 @@ class ProductDetailsPage extends Page {
     );
   }
 
-  // ====================
-  // SELECTORS - CART SCREEN
-  // ====================
-
-  // Cart screen header
-  get cartHeader() {
-    return $(
-      '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/productTV"]',
-    );
-  }
-
-  // Cart item name
-  get cartItemName() {
-    return $(
-      '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/titleTV"]',
-    );
-  }
-
-  // Cart item quantity
-  get cartItemQuantity() {
-    return $(
-      '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/noTV"]',
-    );
-  }
-
-  // Cart item total price
-  get cartItemTotalPrice() {
-    return $(
-      '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/totalPriceTV"]',
-    );
-  }
-
-  // Cart item price per unit
-  get cartItemUnitPrice() {
-    return $(
-      '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/priceTV"]',
-    );
-  }
-
+  // Cart number element in the cart icon
   get getCartNumberElement() {
     return $(
       '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/cartTV"]',
@@ -105,48 +68,13 @@ class ProductDetailsPage extends Page {
   // PAGE METHODS
   // ====================
 
-  // Safely find an element by selector and wait for it to be displayed.
-  // Returns null when the element cannot be found within the timeout.
-  async findElementSafe(selector, timeout = 3000) {
-    try {
-      const el = await $(selector);
-      await el.waitForDisplayed({ timeout });
-      return el;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  // Safely click an element if present.
-  async safeClick(selector) {
-    try {
-      const el = await this.findElementSafe(selector, 2000);
-      if (el) await this.click(el);
-      return !!el;
-    } catch (error) {
-      return false;
-    }
-  }
-  // Safely retrieve text from an element, returning empty string when not found.
-  async safeGetText(selector) {
-    try {
-      const el = await this.findElementSafe(selector, 2000);
-      if (!el) return "";
-      return await this.getText(el);
-    } catch (error) {
-      return "";
-    }
-  }
-
   // Change product color to Blue
   async changeColorToBlue() {
     console.log("Changing color to Blue.");
 
     // Select Blue option
     // try a few selector variations (content-desc is common, but sometimes resource-id/text differ)
-    await this.safeClick(
-      '//android.widget.ImageView[@content-desc="Blue color"]',
-    );
+    await $('//android.widget.ImageView[@content-desc="Blue color"]').click();
 
     console.log("Color changed to Blue successfully");
   }
@@ -201,85 +129,9 @@ class ProductDetailsPage extends Page {
     return cartNumberText;
   }
 
-  // Verify on cart screen
-  // @returns {boolean} True if on cart screen
-  async verifyOnCartScreen() {
-    try {
-      await this.waitForDisplayed(this.cartHeader, 5000);
-      return await this.isDisplayed(this.cartHeader);
-    } catch (error) {
-      console.error("Error verifying cart screen:", error.message);
-      return false;
-    }
-  }
-
-  // Get cart item details
-  // @returns {object} Object containing item details
-  async getCartItemDetails() {
-    // Try multiple selectors and return safe defaults when elements are missing
-    const name =
-      (await this.safeGetText(
-        '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/titleTV"]',
-      )) ||
-      (await this.safeGetText(
-        '//android.widget.TextView[contains(@content-desc, "title")]',
-      ));
-
-    const quantityStr =
-      (await this.safeGetText(
-        '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/noTV"]',
-      )) ||
-      (await this.safeGetText(
-        '//android.widget.TextView[contains(@text, "") and @resource-id]',
-      ));
-
-    const unitPrice =
-      (await this.safeGetText(
-        '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/priceTV"]',
-      )) ||
-      (await this.safeGetText(
-        '//android.widget.TextView[contains(@content-desc, "price")]',
-      ));
-
-    const totalPrice =
-      (await this.safeGetText(
-        '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/totalPriceTV"]',
-      )) ||
-      (await this.safeGetText(
-        '//android.widget.TextView[contains(@content-desc, "total")]',
-      ));
-
-    const details = {
-      name,
-      quantity: parseInt(quantityStr) || 0,
-      unitPrice,
-      totalPrice,
-    };
-
-    console.log("Cart Item Details:", details);
-    return details;
-  }
-
-  // Calculate expected total price
-  // @param {string} unitPrice - Price per unit (with $ sign)
-  // @param {number} quantity - Number of items
-  // @returns {string} Expected total price formatted
-  calculateExpectedTotal(unitPrice, quantity) {
-    // Extract numeric value from price string (e.g., "$29.99" -> 29.99)
-    const numericPrice = parseFloat(unitPrice.replace(/[^0-9.-]+/g, ""));
-    const expectedTotal = numericPrice * quantity;
-
-    // Format back to currency string
-    return `$${expectedTotal.toFixed(2)}`;
-  }
-
   async verifyOnProductDetailScreen() {
     const productTitle = await this.productName.getText();
     return productTitle === "Sauce Labs Backpack";
-  }
-
-  async getItemName() {
-    return await this.productName.getText();
   }
 
   async openCart() {
