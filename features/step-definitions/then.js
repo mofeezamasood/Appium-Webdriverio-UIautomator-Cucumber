@@ -3,6 +3,7 @@ import { expect } from "chai";
 import ProductDetailsPage from "../pageobjects/product.details.page.js";
 import ProductsPage from "../pageobjects/Products.page.js";
 import cartPage from "../pageobjects/cart.page.js";
+import loginPage from "../pageobjects/login.page.js";
 
 // ====================
 // THEN Steps (Verifications)
@@ -30,7 +31,15 @@ Then("I should be on the {string} screen", async (screenName) => {
     const isOnProductsScreen = await ProductsPage.verifyOnProductsScreen();
     expect(isOnProductsScreen).to.be.true;
     console.log("Successfully verified Products screen");
+    return;
   }
+  if (screenName === "Login") {
+    const isOnLoginScreen = await loginPage.verifyOnLoginScreen();
+    expect(isOnLoginScreen).to.be.equal("Login");
+    console.log("Successfully verified Login screen");
+    return;
+  }
+  throw new Error(`Screen "${screenName}" not recognized for verification`);
 });
 
 // I verify the item name in cart is "Sauce Labs Backpack"
@@ -73,8 +82,14 @@ Then(
 
     // Get cart item details
     const isTotalCorrect = await cartPage.verifyTotal(quantity);
-
     expect(isTotalCorrect).to.be.true;
     console.log("✓ Total price verified successfully");
   },
 );
+
+Then("I should see {string} error message", async (s) => {
+  console.log(`Verifying error message: "${s}"`);
+  const errorMessageRecieved = await loginPage.getErrorMessageText();
+  expect(errorMessageRecieved).to.be.equal(s);
+  console.log("✓ Error message verified successfully");
+});

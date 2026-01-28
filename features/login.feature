@@ -1,17 +1,17 @@
-# # features/login.feature
-# Feature: Login Flow
+# features/login.feature
+Feature: Login Flow
 
-#     # Scenario 2: Login Flow (Data Driven)
-#     Scenario: Attempt login with two invalid and one valid credentials
-#         Given I launch the Sauce Labs My Demo App
-#         When I am on the "Login" screen
-#         And I attempt to login with username "invalid user1" and password "wrong pass1"
-#         Then I should see "Locked Out User" error message
+    # Scenario 2: Login Flow (Data Driven)
+    Scenario: Attempt login with one locked and one valid credential
+        Given I launch the Sauce Labs My Demo App
+        When I click on the View menu
+        And I click on the "Log In" option in the View menu
+        Then I should be on the "Login" screen
 
-#         Given I am on the "Login" screen
-#         When I attempt to login with username "invalid user2" and password "wrong pass2"
-#         Then I should see "Invalid password" error message
+        Given I am on the "Login" screen
+        And I attempt to login with username "alice@example.com" and password "10203040"
+        Then I should see "Sorry this user has been locked out." error message
 
-#         Given I am on the "Login" screen
-#         When I attempt to login with username "invalid user3" and password "wrong pass3"
-#         Then I should be successfully logged in and see the products screen
+        Given I am on the "Login" screen
+        When I attempt to login with username "bob@example.com" and password "rightpass"
+        Then I should be on the "Products" screen

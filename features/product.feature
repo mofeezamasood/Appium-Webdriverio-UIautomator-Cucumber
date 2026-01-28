@@ -17,7 +17,7 @@ Feature: Product Selection & Cart Validation
     Then I should see that the cart number was updated to "2" in the cart icon
     And I navigate to the "My Cart" screen
 
-    Given I am on the "Cart" screen
+    Given I am on the "My Cart" screen
     Then I verify the item name in cart is "Sauce Labs Backpack" 
     And I verify the quantity of the item in the cart is "2"
     And I verify the total price matches the calculation for "2" items

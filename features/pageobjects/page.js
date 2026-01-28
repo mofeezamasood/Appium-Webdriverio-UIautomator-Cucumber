@@ -1,7 +1,18 @@
 import { browser } from "@wdio/globals";
 
-/**
- * main page object containing all methods, selectors and functionality
- * that is shared across all page objects
- */
-export default class Page {}
+export class Page {
+  // Hamburger menu button
+  get viewMenu() {
+    return driver.$("accessibility id:View menu");
+  }
+
+  async clickViewMenu() {
+    await this.viewMenu.click();
+  }
+
+  async clickMenuItem(menuItem) {
+    await menuItem.click();
+  }
+}
+
+export default Page;

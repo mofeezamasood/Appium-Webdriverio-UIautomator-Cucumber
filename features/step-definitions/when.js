@@ -2,19 +2,11 @@ import { When } from "@wdio/cucumber-framework";
 import { expect } from "chai";
 import productDetail from "../pageobjects/product.details.page.js";
 import ProductsPage from "../pageobjects/Products.page.js";
+import LoginPage from "../pageobjects/login.page.js";
 
 // ====================
 // WHEN Steps (Actions)
 // ====================
-
-// When I click on the "Add to cart" button
-When("I click on the {string} button", async (buttonName) => {
-  console.log(`Clicking on button: "${buttonName}"`);
-  if (buttonName === "Add to cart") {
-    await productDetail.addToCart();
-    console.log("✓ Add to cart action complete");
-  }
-});
 
 // Click on the "Sauce Labs Backpack" product
 When("I click on the {string} product", async (productName) => {
@@ -66,15 +58,38 @@ When("I increase the quantity to {string}", async (quantity) => {
   console.log(`Quantity set to ${finalQty}`);
 });
 
-// Add product to cart
-When("I click {string}", async (buttonText) => {
-  console.log(`Clicking "${buttonText}"`);
-
-  if (buttonText === "Add to cart") {
-    // await productDetail.addToCart();
-
-    // Verify item was added to cart (check badge if available)
-    await driver.pause(1000);
+// When I click on the "Add to cart" button
+When("I click on the {string} button", async (buttonName) => {
+  console.log(`Clicking on button: "${buttonName}"`);
+  if (buttonName === "Add to cart") {
+    await productDetail.addToCart();
     console.log("✓ Add to cart action complete");
+  }
+});
+
+// (Removed duplicate "I am on the {string} screen" When-step to avoid
+// ambiguous step definitions — use Given/Then definitions instead.)
+
+// I attempt to login with username "invalid user1" and password "wrong pass1"
+When(
+  "I attempt to login with username {string} and password {string}",
+  async (s, s2) => {
+    console.log(`Attempting login with username: "${s}" and password: "${s2}"`);
+    await LoginPage.login(s, s2);
+    console.log("✓ Login attempt complete");
+  },
+);
+
+When("I click on the View menu", async () => {
+  console.log("Clicking on the View menu");
+  await LoginPage.clickViewMenu();
+  console.log("✓ Clicked on the View menu");
+});
+
+When("I click on the {string} option in the View menu", async (s) => {
+  console.log(`Clicking on the "${s}" option in the View menu`);
+  if (s === "Log In") {
+    await LoginPage.clickMenuItem();
+    console.log(`✓ Clicked on the "${s}" option`);
   }
 });

@@ -3,6 +3,7 @@ import { expect } from "chai";
 import productDetail from "../pageobjects/product.details.page.js";
 import ProductsPage from "../pageobjects/Products.page.js";
 import cartPage from "../pageobjects/cart.page.js";
+import loginPage from "../pageobjects/login.page.js";
 
 // ====================
 // GIVEN Steps
@@ -17,6 +18,7 @@ Given("I launch the Sauce Labs My Demo App", async () => {
 // Given I am on the "Products" screen
 Given("I am on the {string} screen", async (screenName) => {
   console.log(`Verifying we're on the "${screenName}" screen`);
+
   if (screenName === "Products") {
     const isOnProductsScreen = await ProductsPage.verifyOnProductsScreen();
     expect(isOnProductsScreen).to.be.true;
@@ -32,5 +34,10 @@ Given("I am on the {string} screen", async (screenName) => {
     const isOnCartScreen = await cartPage.verifyOnCartScreen();
     expect(isOnCartScreen).to.be.true;
     console.log("Successfully verified Cart screen");
+  }
+  if (screenName === "Login") {
+    const isOnLoginScreen = await loginPage.verifyOnLoginScreen();
+    expect(isOnLoginScreen).to.be.equal("Login");
+    console.log("Successfully verified Login screen");
   }
 });

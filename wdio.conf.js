@@ -56,7 +56,7 @@ export const config = {
 
       //    "appium:platformVersion": "24.0",
       platformName: "Android",
-      "appium:udid": "emulator-5556",
+      "appium:udid": "emulator-5554",
       "appium:automationName": "UiAutomator2",
       "appium:appPackage": "com.saucelabs.mydemoapp.android",
       "appium:appActivity": ".view.activities.SplashActivity",
@@ -169,7 +169,7 @@ export const config = {
     // <string> (expression) only execute the features or scenarios with tags matching the expression
     tagExpression: "",
     // <number> timeout for step definitions
-    timeout: 60000,
+    timeout: 70000,
     // <boolean> Enable this config to treat undefined definitions as warnings.
     ignoreUndefinedDefinitions: false,
   },

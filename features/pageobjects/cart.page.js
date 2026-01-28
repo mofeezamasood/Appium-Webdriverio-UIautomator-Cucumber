@@ -1,6 +1,4 @@
-import { default as Page } from "./page.js";
-
-class CartPage extends Page {
+class CartPage {
   get cartHeader() {
     return $(
       '//android.widget.TextView[@resource-id="com.saucelabs.mydemoapp.android:id/productTV"]',
